@@ -14,25 +14,25 @@ class VehiclesProvider extends ChangeNotifier {
     update(Vehicle(
       id: newUuid(),
       displayName: "Vehicle 1",
-      currentLocation: const LatLng(25.2924, 51.3240),
+      location: const LatLng(25.2924, 51.3240),
       speed: 8200,
-      endLocation: const LatLng(25.2924, 51.5490),
+      waypoints: const [LatLng(25.2924, 51.5490)],
     ));
 
     update(Vehicle(
       id: newUuid(),
       displayName: "Vehicle 2",
-      currentLocation: const LatLng(25.3124, 51.3000),
+      location: const LatLng(25.3124, 51.3000),
       speed: 8200,
-      endLocation: const LatLng(25.3124, 51.5490),
+      waypoints: const [LatLng(25.3124, 51.5490)],
     ));
 
     update(Vehicle(
       id: newUuid(),
       displayName: "Vehicle 3",
-      currentLocation: const LatLng(25.3324, 51.2700),
+      location: const LatLng(25.3324, 51.2700),
       speed: 8200,
-      endLocation: const LatLng(25.3324, 51.5490),
+      waypoints: const [LatLng(25.3324, 51.5490)],
     ));
   }
 

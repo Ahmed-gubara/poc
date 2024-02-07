@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:poc/const.dart';
+import 'package:poc/entities/fixed_radar.dart';
 import 'package:poc/entities/radar.dart';
 import 'package:poc/entities/vehicle.dart';
 import 'package:uuid/uuid.dart';
@@ -12,7 +13,7 @@ class RadarsProvider extends ChangeNotifier {
 
   // ignore: unused_element
   void _addSample() {
-    update(Radar(
+    update(FixedRadar(
       id: newUuid(),
       displayName: "Radar 1",
       location: kDohaLatLng,
@@ -20,7 +21,7 @@ class RadarsProvider extends ChangeNotifier {
       endAngle: 20,
       radiusDistance: 10,
     ));
-    update(Radar(
+    update(FixedRadar(
       id: newUuid(),
       displayName: "Radar 2",
       location: const LatLng(25.2854, 51.3210),

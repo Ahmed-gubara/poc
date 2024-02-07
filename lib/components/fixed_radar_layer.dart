@@ -1,31 +1,32 @@
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
-import 'package:poc/entities/radar.dart';
+import 'package:poc/entities/fixed_radar.dart';
 import 'package:latlong2/latlong.dart';
 
-class RadarLayer extends StatelessWidget {
-  final List<Radar> radars;
+class FixedRadarLayer extends StatelessWidget {
+  final List<FixedRadar> radars;
   final bool showLabel;
-  const RadarLayer({super.key, required this.radars, required this.showLabel});
+  const FixedRadarLayer({super.key, required this.radars, required this.showLabel});
 
   @override
   Widget build(BuildContext context) {
     var circles = radars.map((e) => _PieMarker(
           point: e.location,
-          radius: e.radiusDistance * 1000,
+          radius: e.radiusDistance * 1000, // convert from km to meters
           useRadiusInMeter: true,
-          color: e.hasVehicles ? Colors.red.shade500 : Colors.green.shade500,
+          color: e.hasVehicles ? const Color(0xFFFF0000) : const Color(0xFF00FF00),
           borderColor: Colors.blue,
           borderStrokeWidth: 50,
-          startAngle: (e.startAngle - 90) * math.pi / 180.0,
+          startAngle: (e.startAngle - 90) * math.pi / 180.0, // to make Angle 0 as the north
           sweepAngle: (e.endAngle - e.startAngle) * math.pi / 180.0,
         ));
     return Stack(
       alignment: Alignment.center,
       children: [
         _PieLayer(circles: circles.toList()),
-        if (showLabel) MarkerLayer(markers: radars.map((e) => Marker(point: e.location, width: 100, child: Center(child: Text(e.displayName)))).toList())
+        if (showLabel)
+          MarkerLayer(markers: radars.map((e) => Marker(rotate: true, point: e.location, width: 100, child: Center(child: Text(e.displayName)))).toList())
       ],
     );
   }
@@ -111,16 +112,20 @@ class _PiePainter extends CustomPainter {
   void _paintCircle(Canvas canvas, Offset offset, double radius, Paint paint, double startAngle, double sweepAngle) {
     final rect = Rect.fromPoints(offset - Offset(radius, radius), offset + Offset(radius, radius));
     const useCenter = true;
+
+    // draw pie
     paint.color = paint.color.withOpacity(0.7);
     canvas.drawArc(rect, startAngle, sweepAngle, useCenter, paint);
 
-    paint.color = paint.color.withOpacity(0.2);
-    canvas.drawCircle(offset, radius, paint);
+    // draw circle
+    // paint.color = paint.color.withOpacity(0.2);
+    // canvas.drawCircle(offset, radius, paint);
 
+    // draw border
     paint.color = paint.color.withOpacity(0.7);
     paint.style = PaintingStyle.stroke;
     paint.strokeWidth = 2;
-    canvas.drawCircle(offset, radius, paint);
+    // canvas.drawCircle(offset, radius, paint);
     paint.style = PaintingStyle.fill;
     paint.strokeWidth = 0;
   }

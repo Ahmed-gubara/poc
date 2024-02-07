@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:poc/const.dart';
-import 'package:poc/entities/radar.dart';
+import 'package:poc/entities/fixed_radar.dart';
 import 'package:poc/providers/radars_provider.dart';
 import 'package:provider/provider.dart';
 
-class RadarAddScreen extends StatefulWidget {
+class FixedRadarAddScreen extends StatefulWidget {
   final LatLng location;
-  const RadarAddScreen({super.key, required this.location});
+  const FixedRadarAddScreen({super.key, required this.location});
 
   @override
-  State<RadarAddScreen> createState() => _RadarAddScreenState();
+  State<FixedRadarAddScreen> createState() => _FixedRadarAddScreenState();
 }
 
-class _RadarAddScreenState extends State<RadarAddScreen> {
+class _FixedRadarAddScreenState extends State<FixedRadarAddScreen> {
   final _formKey = GlobalKey<FormState>();
   String displayName = "";
   double distance = 0.0;
@@ -40,7 +40,7 @@ class _RadarAddScreenState extends State<RadarAddScreen> {
                 onSaved: (newValue) => displayName = newValue ?? "",
               ),
               gap,
-              const Text("Distance, KM"),
+              const Text("Range, KM"),
               TextFormField(
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -54,7 +54,7 @@ class _RadarAddScreenState extends State<RadarAddScreen> {
                 onSaved: (newValue) => distance = double.parse(newValue!),
               ),
               gap,
-              const Text("Range, Degrees"),
+              const Text("Horizontal angle, Degrees"),
               // FormField<RangeValues>(
               //   initialValue: rangeValues,
               //   builder: (field) {
@@ -102,7 +102,7 @@ class _RadarAddScreenState extends State<RadarAddScreen> {
                     var currentState = _formKey.currentState;
                     if (currentState != null && currentState.validate() == true) {
                       currentState.save();
-                      context.read<RadarsProvider>().update(Radar(
+                      context.read<RadarsProvider>().update(FixedRadar(
                             id: newUuid(),
                             displayName: displayName,
                             location: widget.location,
